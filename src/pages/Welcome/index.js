@@ -2,13 +2,11 @@ import React from 'react';
 import { View,
          Text,
          StyleSheet,
-         Image,
          TouchableOpacity } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
 
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
 
 export default function Welcome(){
     const navigation = useNavigation();

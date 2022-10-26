@@ -2,21 +2,23 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
+import { useNavigation } from '@react-navigation/native';
 
 export default function SignIn(){
-
+    
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
     function handleSignIn(){
-        if(email === '' || senha === ''){
-            alert("Preencha os Campos")
-            return;
-        }
-        const data = {
-            email,
-            senha
-        };
+        // if(email != 'teste@teste.com' || senha != '123'){
+        //     alert("Preencha os Campos")
+        //     return;
+        // }
+        // const data = {
+        //     email,
+        //     senha
+        // };
 
         console.log(data)
     };
@@ -43,7 +45,9 @@ export default function SignIn(){
                  style={styles.input}
                  secureTextEntry={true}/>
 
-                 <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+                 <TouchableOpacity
+                  style={styles.button}
+                   onPress={()=> navigation.navigate('Upload')}>
                      <Text style={styles.buttonText}>Acessar</Text>
                  </TouchableOpacity>
 
