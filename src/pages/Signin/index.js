@@ -1,26 +1,19 @@
-import React, {useState} from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
-import { useNavigation } from '@react-navigation/native';
+
+import { AuthContext } from '../../contexts/auth'
 
 export default function SignIn(){
-    
-    const navigation = useNavigation();
+
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    function handleSignIn(){
-        // if(email != 'teste@teste.com' || senha != '123'){
-        //     alert("Preencha os Campos")
-        //     return;
-        // }
-        // const data = {
-        //     email,
-        //     senha
-        // };
+    const { login } = useContext(AuthContext);
 
-        console.log(data)
+    function handleLogin(){
+        login(email, senha)
     };
 
     return(
@@ -47,7 +40,7 @@ export default function SignIn(){
 
                  <TouchableOpacity
                   style={styles.button}
-                   onPress={()=> navigation.navigate('Upload')}>
+                   onPress={handleLogin}>
                      <Text style={styles.buttonText}>Acessar</Text>
                  </TouchableOpacity>
 

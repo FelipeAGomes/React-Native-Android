@@ -27,6 +27,7 @@ export default function Routes(){
             component={Upload}
             options={{headerShown: false}}
         />
+        
     </Stack.Navigator>
     )
 }

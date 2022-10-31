@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { View,
          Text,
          StyleSheet,
@@ -9,7 +9,13 @@ import * as Animatable from 'react-native-animatable';
 //biblioteca para o upload
 import { launchImageLibrary } from 'react-native-image-picker';
 
+//AUTH
+import {AuthContext} from '../../contexts/auth'
+
 export default function Welcome(){
+
+    //AUTH
+    const { nome, user } = useContext(AuthContext);
 
     const handleClickUpload = () =>{
         let options = {
@@ -27,48 +33,45 @@ export default function Welcome(){
         }else if(res.errorCode && parseInt(res.errorCode)){
             //erro
             console.log('upload error')
-        }else{
-            uploadImage(res);
-            console.log('upload com sucesso')
+        }else{ 
+            const data = new FormData();
+                data.append('name','res.fileName');
+                data.append('uploadedFile', res.assets);
+                data.append('uploadBtn', 'Upload');
+
+                let req = fetch(
+                    'http://179.215.0.104:9001/upload/upload',
+                    {
+                      method: 'post',
+                      body: data,
+                      headers: {
+                        'Content-Type': 'multipart/form-data; ',
+                      },
+                    }
+                );
+            console.log(res.assets[0['uri']])
         }
     };
-
-    const uploadImage = async (imagedata)=>{
-        console.log('imagedata', imagedata)
-
-        // let data = {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //       imagedata: imagedata
-        //     }),
-        //     headers: {
-        //       Accept:       'application/json',
-        //       'Content-Type': 'application/json',
-        //     }
-        // }
-        //   return fetch('http://192.168.0.11/felipegomes/rnandroid/api/upload.php', data)
-        //           .then((response) => response.json())  // promise
-        //           .then((json) => {
-        //               console.log('result', json)
-        //           })
-    }; 
-    
 
     return(
         <View style={styles.container}>
             <View style={styles.containerLogo}>
                 <Animatable.Image 
                 animation="flipInY"
-                source={require('../../assets/teste.png')}
+                source={{
+                    uri:
+                     'https://ludwigsistemas.000webhostapp.com/upload/photos/4606c150ef4e9f3e9f31db4e4abcdb01-resized.png'
+                }}
                 style={{ width: 200, height:200, borderRadius:100}}
                 resizeMode='contain'
                 />
+                <Text>Email: {user.email}</Text>
             </View>
 
             <Animatable.View delay={600} animation="fadeInUp" style={styles.containerForm}>
                 <Text style={styles.title}>Faça o upload da sua foto</Text>
                 <Text style={styles.text}>Escolha sua foto de perfil</Text>
-
+                
                 <TouchableOpacity
                  style={styles.button}
                  onPress={()=> handleClickUpload() }>
