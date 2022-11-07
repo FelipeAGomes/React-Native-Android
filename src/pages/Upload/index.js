@@ -20,7 +20,8 @@ export default function Welcome(){
     const handleClickUpload = () =>{
         let options = {
             mediaType: 'photo',
-            includeBase64: true
+            // includeBase64: true,
+            // includeExtra: true
         }
         launchImageLibrary(options, onSuccess)
     };
@@ -35,21 +36,22 @@ export default function Welcome(){
             console.log('upload error')
         }else{ 
             const data = new FormData();
+            res.error = 0;
                 data.append('name','res.fileName');
-                data.append('uploadedFile', res.assets);
+                data.append('uploadedFile', {name: res.assets[0].fileName, type: res.assets[0].type, uri: res.assets[0].uri});
                 data.append('uploadBtn', 'Upload');
+                // data.append('')
 
                 let req = fetch(
-                    'http://179.215.0.104:9001/upload/upload',
+                    'https://loki.iriustech.com/upload/upload.php',
                     {
-                      method: 'post',
+                      method: 'POST',
                       body: data,
                       headers: {
                         'Content-Type': 'multipart/form-data; ',
                       },
                     }
                 );
-            console.log(res.assets[0['uri']])
         }
     };
 
@@ -60,12 +62,11 @@ export default function Welcome(){
                 animation="flipInY"
                 source={{
                     uri:
-                     'https://ludwigsistemas.000webhostapp.com/upload/photos/4606c150ef4e9f3e9f31db4e4abcdb01-resized.png'
+                     'https://loki.iriustech.com/upload/photos/profile-resized.png'
                 }}
                 style={{ width: 200, height:200, borderRadius:100}}
                 resizeMode='contain'
                 />
-                <Text>Email: {user.email}</Text>
             </View>
 
             <Animatable.View delay={600} animation="fadeInUp" style={styles.containerForm}>

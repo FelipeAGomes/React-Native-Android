@@ -9,7 +9,7 @@ function AuthProvider({children}){
     const navigation = useNavigation();
 
     function login(email, senha){
-        if(email == 'teste@teste.com' && senha == '1234'){
+        if(email == '' && senha == ''){
             setUser({
                 email: email,
                 status: "ATIVO"
